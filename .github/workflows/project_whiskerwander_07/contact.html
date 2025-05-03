@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhiskersWander - Contact</title>
+    <link rel="stylesheet" href="./css/contact.css">
+    <!-- Add EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+</head>
+<body>
+    <header>
+        <div class="account">
+            <img src="images/avatar.png" alt="Avatar" class="avatar">
+            <span><a href="log_in.html"><button>Login</button></a></span>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="event.html">Event</a></li>
+                <li><a href="map.html">Map</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="shop.html">Shop</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="contact-container">
+            <!-- Contact Information Section -->
+            <section class="contact-info">
+                <h1>CONTACT</h1>
+                <address>
+                    No. 1號, Section 2, Xinsheng S<br>
+                    Rd, Da'an District, Taipei City,<br>
+                    106
+                </address>
+                <div class="contact-details">
+                    <a href="mailto:evalisveryverygood@gmail.com">evalisveryverygood@gmail.com</a>
+                    <p>0909090909</p>
+                </div>
+            </section>
+
+            <!-- Contact Form Section -->
+            <section class="form-section">
+                <h2>You can also contact us by<br>using this form:</h2>
+                <form id="contact-form">
+                    <div class="form-group">
+                        <div class="name-group">
+                            <div class="input-group">
+                                <label for="contactFirstName">First name *</label>
+                                <input type="text" id="contactFirstName" name="first_name" required>
+                            </div>
+                            <div class="input-group">
+                                <label for="contactLastName">Last name *</label>
+                                <input type="text" id="contactLastName" name="last_name" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="contactEmail">Email *</label>
+                        <input type="email" id="contactEmail" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Subject *</label>
+                        <input type="text" id="subject" name="subject" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message *</label>
+                        <textarea id="message" name="message" rows="4" required style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;"></textarea>
+                    </div>
+                    <button type="submit" class="subscribe-btn">Submit</button>
+                </form>
+            </section>
+
+            <!-- Mailing List Section -->
+            <section class="mailing-list">
+                <h2>JOIN THE<br>MAILING LIST</h2>
+                <form id="mailing-form">
+                    <div class="form-group">
+                        <div class="name-group">
+                            <div class="input-group">
+                                <label for="firstName">First name *</label>
+                                <input type="text" id="firstName" name="first_name" required>
+                            </div>
+                            <div class="input-group">
+                                <label for="lastName">Last name *</label>
+                                <input type="text" id="lastName" name="last_name" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Enter your email here *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone (optional)</label>
+                        <input type="tel" id="phone" name="phone">
+                    </div>
+                    <button type="submit" class="subscribe-btn">Subscribe</button>
+                </form>
+            </section>
+        </div>
+
+        <div class="social-media">
+            <a href="#" class="social-icon"><img src="images/fb.png" alt="Facebook"></a>
+            <a href="#" class="social-icon"><img src="images/ig.png" alt="Instagram"></a>
+        </div>
+    </main>
+
+    <script>
+        // Initialize EmailJS with your public key
+        (function() {
+            emailjs.init("YOUR_PUBLIC_KEY"); // Replace with your actual public key
+        })();
+
+        // Contact form submission
+        document.getElementById('contact-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            // Show loading indicator
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
+
+            // Prepare template parameters
+            const templateParams = {
+                first_name: document.getElementById('contactFirstName').value,
+                last_name: document.getElementById('contactLastName').value,
+                email: document.getElementById('contactEmail').value,
+                subject: document.getElementById('subject').value,
+                message: document.getElementById('message').value
+            };
+
+            // Send email using EmailJS
+            emailjs.send('service_6elimwi', 'template_zmwu6de', templateParams)
+                .then(function(response) {
+                    console.log('SUCCESS!', response.status, response.text);
+                    alert('Your message has been sent successfully!');
+                    document.getElementById('contact-form').reset();
+                })
+                .catch(function(error) {
+                    console.log('FAILED...', error);
+                    alert('Failed to send message. Please try again later.');
+                })
+                .finally(function() {
+                    // Restore button state
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                });
+        });
+
+        // Mailing list form submission
+        document.getElementById('mailing-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            // Show loading indicator
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
+
+            // Prepare template parameters
+            const templateParams = {
+                first_name: document.getElementById('firstName').value,
+                last_name: document.getElementById('lastName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value || 'Not provided',
+                form_type: 'Mailing List Subscription'
+            };
+
+            // Send email using EmailJS
+            emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams)
+                .then(function(response) {
+                    console.log('SUCCESS!', response.status, response.text);
+                    alert('Thank you for subscribing to our mailing list!');
+                    document.getElementById('mailing-form').reset();
+                })
+                .catch(function(error) {
+                    console.log('FAILED...', error);
+                    alert('Failed to subscribe. Please try again later.');
+                })
+                .finally(function() {
+                    // Restore button state
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                });
+        });
+    </script>
+</body>
+</html>
