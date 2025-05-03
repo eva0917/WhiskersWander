@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhiskersWander - Events</title>
+    <link rel="stylesheet" href="./css/event.css">
+    
+    <!-- Add Firebase App (the core Firebase SDK) -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+
+    <script>
+        // Initialize Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyAFjTUhKK_UQSuqHzIhs0BF7OZZpP5BFE0",
+            authDomain: "whiskerswander-7e2fc.firebaseapp.com",
+            projectId: "whiskerswander-7e2fc",
+            storageBucket: "whiskerswander-7e2fc.firebasestorage.app",
+            messagingSenderId: "775396402694",
+            appId: "1:775396402694:web:983d9a806a8082a7bb4587"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        // Get reference to Firestore
+        const db = firebase.firestore();
+
+        // Function to load and display events
+        function loadEvents() {
+            const eventsContainer = document.querySelector('.events-container');
+            
+            console.log("Starting to fetch events...");
+            
+            // Clear any existing content except the "Host an Event" button
+            eventsContainer.innerHTML = '<a href="host.html" class="host-event-button">Host an Event</a>';
+            
+            // Fetch events from Firestore
+            db.collection("events").get()
+                .then((querySnapshot) => {
+                    console.log("Query snapshot received:", querySnapshot.size, "documents");
+                    
+                    if (querySnapshot.empty) {
+                        console.log("No documents found in collection");
+                        eventsContainer.innerHTML += '<p>No upcoming events available.</p>';
+                        return;
+                    }
+
+                    querySnapshot.forEach((doc) => {
+                        console.log("Processing document:", doc.id);
+                        const data = doc.data();
+                        console.log("Document data:", data);
+                        
+                        const eventCard = document.createElement('div');
+                        eventCard.className = 'event-card';
+                        
+                        // Format the timestamp
+                        let dateStr = "Date not available";
+                        let timeStr = "Time not available";
+                        
+                        if (data.hosting_date_time) {
+                            try {
+                                // Check if hosting_date_time is a Firebase Timestamp
+                                if (data.hosting_date_time && typeof data.hosting_date_time.toDate === 'function') {
+                                    // If it's a Firebase Timestamp object, convert to JavaScript Date
+                                    const timestamp = data.hosting_date_time.toDate();
+                                    dateStr = timestamp.toLocaleDateString();
+                                    timeStr = timestamp.toLocaleTimeString();
+                                } else if (data.hosting_date_time instanceof Date) {
+                                    // If it's already a JavaScript Date
+                                    const timestamp = data.hosting_date_time;
+                                    dateStr = timestamp.toLocaleDateString();
+                                    timeStr = timestamp.toLocaleTimeString();
+                                } else if (typeof data.hosting_date_time === 'string') {
+                                    // If it's a string, try parsing it
+                                    const timestamp = new Date(data.hosting_date_time);
+                                    if (!isNaN(timestamp)) {
+                                        dateStr = timestamp.toLocaleDateString();
+                                        timeStr = timestamp.toLocaleTimeString();
+                                    }
+                                } else if (data.hosting_date_time.seconds) {
+                                    // Handle timestamps stored as {seconds: number, nanoseconds: number}
+                                    const timestamp = new Date(data.hosting_date_time.seconds * 1000);
+                                    dateStr = timestamp.toLocaleDateString();
+                                    timeStr = timestamp.toLocaleTimeString();
+                                }
+                            } catch (error) {
+                                console.error("Error formatting date/time:", error);
+                                dateStr = "Date format error";
+                                timeStr = "Time format error";
+                            }
+                        }
+                        
+                        // Use a fallback image if the event image is missing
+                        const eventImage = data.image_url;
+                        
+                        eventCard.innerHTML = `
+                            <div class="event-image">
+                                <img src="${eventImage}" alt="Event Image" >
+                            </div>
+                            <div class="event-details">
+                                <h2 class="company-name">${data.company_name || 'Unnamed Event'}</h2>
+                                <p class="event-location">${data.location || 'Location TBA'}</p>
+                                <p class="event-description">${data.description || 'No description available'}</p>
+                                <p class="duration">Duration: ${data.duration || 'TBA'} hours</p>
+                                <p class="contact">Contact: ${data.email || 'No contact provided'}</p>
+                                <p class="date">Date: ${dateStr}</p>
+                                <p class="time">Time: ${timeStr}</p>
+                            </div>
+                        `;
+                        
+                        eventsContainer.appendChild(eventCard);
+                    });
+                })
+                .catch((error) => {
+                    console.error("Error loading events:", error);
+                    eventsContainer.innerHTML += `
+                        <div class="error-message" style="color: red; padding: 20px;">
+                            Error loading events: ${error.message}
+                            <br>
+                            Please check the console for more details.
+                        </div>
+                    `;
+                });
+        }
+
+        // Load events when the page is ready
+        document.addEventListener('DOMContentLoaded', loadEvents);
+    </script>
+</head>
+<body>
+    <div id="overlay" class="overlay"></div>
+    <header>
+        <div class="account">
+            <img src="images/avatar.png" alt="Avatar" class="avatar">
+            <span><a href="log_in.html"><button>Login</button></a></span>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="event.html">Event</a></li>
+                <li><a href="map.html">Map</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="shop.html">Shop</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1 class="page-title">Upcoming Events</h1>
+        <div class="events-container">
+            <a href="host.html" class="host-event-button">Host an Event</a>
+            <!-- Event cards will be added here -->
+        </div>
+    </main>
+</body>
+</html>
