@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - WhiskersWander</title>
+    <link rel="stylesheet" href="./css/sign_up.css">
+    <!-- Add Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+    <!-- Previous header content remains the same -->
+    <header>
+        <div class="account">
+            <img src="images/avatar.png" alt="Avatar" class="avatar">
+            <span><a href="log_in.html"><button>Login</button></a></span>
+            <span><a href="sign_up.html"><button class="active">Sign up</button></a></span>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="event.html">Event</a></li>
+                <li><a href="map.html">Map</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="shop.html">Shop</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Previous main content remains the same until the form -->
+    <main>
+        <div class="signup-container">
+            <div class="signup-form">
+                <h1>Create an Account</h1>
+                <p class="intro">Join the WhiskersWander community to discover pet-friendly locations, support local shelters, and connect with fellow animal lovers.</p>
+                
+                <form id="signupForm">
+                    <div class="form-group">
+                        <label for="fullName">Full Name</label>
+                        <input type="text" id="fullName" name="fullName" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required>
+                        <small>Password must be at least 8 characters with letters and numbers</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword" required>
+                    </div>
+                    
+                    <div class="form-group checkbox">
+                        <input type="checkbox" id="terms" name="terms" required>
+                        <label for="terms">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>
+                    </div>
+                    
+                    <button type="submit" class="signup-button">Sign Up</button>
+                </form>
+                
+                <!-- Rest of the content remains the same -->
+            </div>
+            
+            <div class="signup-image">
+                <img src="images/dog2.jpg" alt="Happy pets" id="signupImage">
+                <div class="image-caption">
+                    <h2>Join Our Community</h2>
+                    <p>Help us make a difference for animals in need</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="social-media">
+            <a href="#"><img src="images/fb.png" alt="Facebook"></a>
+            <a href="#"><img src="images/ig.png" alt="Instagram"></a>
+            <a href="#"><img src="images/x.png" alt="Twitter"></a>
+        </div>
+    </main>
+
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAFjTUhKK_UQSuqHzIhs0BF7OZZpP5BFE0",
+            authDomain: "whiskerswander-7e2fc.firebaseapp.com",
+            projectId: "whiskerswander-7e2fc",
+            storageBucket: "whiskerswander-7e2fc.firebasestorage.app",
+            messagingSenderId: "775396402694",
+            appId: "1:775396402694:web:983d9a806a8082a7bb4587"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // Form validation and submission
+        document.getElementById('signupForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const fullName = document.getElementById('fullName').value;
+
+            // Basic validation
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+
+            if (password.length < 8) {
+                alert('Password must be at least 8 characters long!');
+                return;
+            }
+
+            // Check if email already exists
+            try {
+                const emailCheck = await db.collection('members')
+                    .where('Email', '==', email)
+                    .get();
+
+                if (!emailCheck.empty) {
+                    alert('This email is already registered!');
+                    return;
+                }
+
+                // Generate a random serial number (you might want to implement a better system)
+                const serialNumber = Math.floor(Math.random() * 1000000).toString();
+
+                // Add new user to Firestore
+                await db.collection('members').doc(serialNumber).set({
+                    Email: email,
+                    Password: password,
+                    FullName: fullName
+                });
+
+                // Store user email in localStorage
+                localStorage.setItem('userEmail', email);
+
+                // Redirect to home page
+                window.location.href = 'home.html';
+                
+            } catch (error) {
+                console.error('Error during signup:', error);
+                alert('An error occurred during signup. Please try again.');
+            }
+        });
+    </script>
+</body>
+</html>
