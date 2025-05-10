@@ -1,0 +1,137 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhiskersWander - Map</title>
+    <link rel="stylesheet" href="map.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="account">
+            <img src="images/avatar.png" alt="Avatar" class="avatar">
+            <span id="login"><a href="log_in.html"><button>Login</button></a></span>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="event.html" id="eventLink" onclick="checkAccess(event)">Event</a></li>
+                <li><a href="map.html">Map</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="shop.html">Shop</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="map-controls">
+        <button id="createLandmarkBtn" class="create-landmark-btn" onclick="openLandmarkForm()">
+            <i class="fas fa-map-marker-alt"></i> Create a Landmark
+        </button>
+    </div>
+
+    <div class="map-container">
+        <div id="map"></div>
+    </div>
+
+    <!-- Landmark Form Modal -->
+    <div id="landmarkModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeLandmarkForm()">&times;</span>
+            <h2>Create a New Landmark</h2>
+            <form id="landmarkForm">
+                <div class="form-group">
+                    <label for="landmarkName">Landmark Name:</label>
+                    <input type="text" id="landmarkName" required>
+                </div>
+                <div class="form-group">
+                    <label for="landmarkDesc">Description:</label>
+                    <textarea id="landmarkDesc" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="landmarkCategory">Category:</label>
+                    <select id="landmarkCategory">
+                        <option value="park">Dog Park</option>
+                        <option value="cafe">Pet-friendly Café</option>
+                        <option value="store">Pet Store</option>
+                        <option value="vet">Veterinary Clinic</option>
+                        <option value="grooming">Grooming Service</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <p>Click on the map to set location or enter coordinates:</p>
+                    <div class="coordinates">
+                        <label for="landmarkLat">Latitude:</label>
+                        <input type="text" id="landmarkLat" required>
+                        <label for="landmarkLng">Longitude:</label>
+                        <input type="text" id="landmarkLng" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="landmarkImage">Upload Image (optional):</label>
+                    <input type="file" id="landmarkImage">
+                </div>
+                <button type="submit" class="submit-btn">Create Landmark</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Review Modal -->
+    <div id="reviewModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeReviewForm()">&times;</span>
+            <h2 id="reviewModalTitle">Reviews for Landmark</h2>
+            <div id="reviewsList"></div>
+            <hr>
+            <h3>Add Your Review</h3>
+            <form id="reviewForm">
+                <div class="form-group">
+                    <label for="reviewRating">Rating:</label>
+                    <div class="rating-input">
+                        <i class="far fa-star" data-rating="1"></i>
+                        <i class="far fa-star" data-rating="2"></i>
+                        <i class="far fa-star" data-rating="3"></i>
+                        <i class="far fa-star" data-rating="4"></i>
+                        <i class="far fa-star" data-rating="5"></i>
+                        <input type="hidden" id="reviewRating" value="0">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="reviewText">Your Comment:</label>
+                    <textarea id="reviewText" rows="3" required></textarea>
+                </div>
+                <input type="hidden" id="reviewLandmarkId">
+                <button type="submit" class="submit-btn">Submit Review</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="warningPopup" class="warning-popup">
+        <p>You need to be logged in to access this feature!</p>
+        <button onclick="closeWarning()">Close</button>
+    </div>
+    <div id="overlay" class="overlay"></div>
+
+    <div class="social-media">
+        <a href="#"><img src="images/fb.png" alt="Facebook"></a>
+        <a href="#"><img src="images/ig.png" alt="Instagram"></a>
+        <a href="#"><img src="images/x.png" alt="Twitter"></a>
+    </div>
+
+    <!-- Google Maps Script -->
+    <script>(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})
+        ({key: "AIzaSyAkOK349uY9KqfbHRXox53zHMjGnCINUNk", v: "weekly"});</script>
+    
+    <script src="map.js"></script>
+</body>
+</html>
+
+
+
+
+<script
+    async
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkOK349uY9KqfbHRXox53zHMjGnCINUNk&libraries=marker&v=beta&callback=initMap"
+  ></script>
