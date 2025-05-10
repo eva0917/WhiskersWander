@@ -1,0 +1,157 @@
+/* Updated host_event.css */
+
+body {
+    background-color: #f6e7e7;
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.account {
+    display: flex;
+    align-items: center;
+    margin-left: 70px;
+}
+
+.avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+nav {
+    margin-right: 70px;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+.host-event-container {
+    max-width: 700px;
+    margin: 50px auto;
+    padding: 40px;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.page-title {
+    text-align: center;
+    font-size: 32px;
+    font-weight: bold;
+    color: #444;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    color: #555;
+    font-size: 16px;
+    margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    background: #f9f9f9;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #ff7b7b;
+    outline: none;
+    box-shadow: 0 0 5px rgba(255, 123, 123, 0.5);
+}
+
+.inline-group {
+    display: flex;
+    gap: 20px;
+}
+
+.inline-group .form-group {
+    flex: 1;
+}
+
+.file-upload-group {
+    margin: 25px 0;
+}
+
+.file-upload-container {
+    border: 1px dashed #ff7b7b;
+    padding: 40px;
+    border-radius: 5px;
+    text-align: center;
+    background-color: #fff5f5;
+    transition: all 0.3s ease;
+}
+
+.file-upload-container:hover {
+    border-color: #ff5252;
+}
+
+.file-upload-container input[type="file"] {
+    cursor: pointer;
+    width: 300px
+}
+
+.host-button {
+    background: linear-gradient(135deg, #ff7b7b, #ff5252);
+    color: white;
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 20px;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 6px 15px rgba(255, 82, 82, 0.3);
+}
+
+.host-button:hover {
+    background: linear-gradient(135deg, #ff5252, #ff7b7b);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(255, 82, 82, 0.4);
+}
+
+.host-button:active {
+    transform: translateY(2px);
+    box-shadow: 0 4px 10px rgba(255, 82, 82, 0.2);
+}
+
+@media (max-width: 600px) {
+    .host-event-container {
+        padding: 25px;
+    }
+    .inline-group {
+        flex-direction: column;
+        gap: 10px;
+    }
+}

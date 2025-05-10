@@ -1,0 +1,180 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    background: #ffefeb;  /* Matching home page background color */
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 10px 20px;
+    background: #ffd9ce;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.account {
+    display: flex;
+    align-items: center;
+    margin-left: 70px;
+}
+
+.avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+nav {
+    margin-right: 70px;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+/* Disabled link styles */
+.disabled-link {
+    color: #ffffff !important;
+    cursor: not-allowed;
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+/* Warning popup styles */
+.warning-popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    text-align: center;
+    min-width: 300px;
+    border: 1px solid #ffd9ce;
+}
+
+.warning-popup p {
+    margin: 0 0 15px 0;
+    color: #333;
+    font-size: 16px;
+}
+
+.warning-popup button {
+    background-color: #ff6b6b;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.warning-popup button:hover {
+    background-color: #ff4f4f;
+}
+
+/* Overlay styles */
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+.map-container {
+    width: 80%;  /* Leave space around the map */
+    max-width: 1200px;  /* Maximum width to maintain proportion */
+    height: 70vh;  /* Map height relative to viewport height */
+    margin: 40px auto;  /* Add space around the map */
+    border: 1px solid #6e6e6e;  /* Matching home page border style */
+    border-radius: 10px;  /* Rounded corners */
+    overflow: hidden;  /* Keep the map within rounded corners */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);  /* Subtle shadow like home page */
+    position: relative;
+    background: white;
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+}
+
+
+.social-media {
+    position: fixed;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.social-media img {
+    width: 45px;
+    height: 45px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .map-container {
+        width: 90%;
+        height: 60vh;
+        margin: 20px auto;
+    }
+
+    .account, nav {
+        margin: 0 20px;
+    }
+
+    .social-media {
+        display: none;  /* Hide social media on mobile */
+    }
+}
+
+/* Account button styles */
+.account button {
+    background: #ff6b6b;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 0 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.account button:hover {
+    background: #ff4f4f;
+}

@@ -1,0 +1,31 @@
+these are my page and css files. 
+the following are my firebase configuration
+----------------------------------
+ const firebaseConfig = {
+            apiKey: "AIzaSyAkOK349uY9KqfbHRXox53zHMjGnCINUNk",
+            authDomain: "whiskerswander-7e2fc.firebaseapp.com",
+            projectId: "whiskerswander-7e2fc",
+            storageBucket: "whiskerswander-7e2fc.firebasestorage.app",
+            messagingSenderId: "775396402694",
+            appId: "1:775396402694:web:983d9a806a8082a7bb4587"
+        };
+
+----------------------------------
+and the firestore collection is "shop", under it every document represent the information data of 
+a product, each document contains
+the fields: "account"(string), "details"(string), image(string), price(number), pruduct(string)
+
+modify that:
+1. the innerHTML of <span id="amount"> to be the count of documets
+2. the <!-- Product Cards --> inside the <div class="product-grid"> is formatted like:
+   <div class="product-card">
+        <img src="images/wix.jpg" alt="Join WIX" id="image">
+        <div id="account">xxx</divdiv>
+        <h3 id="Product">Join WIX</h3>
+        <p class="price" id="price">NT50</p>
+        <div id="details"></div>
+        <button class="add-to-cart">Add to Cart</button>
+    </div>
+the corresponding innerHTML should be dynamically read from 
+   the documet fields from firestore
+ 
